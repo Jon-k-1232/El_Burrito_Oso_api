@@ -5,7 +5,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const app = express();
-const bodyParser = require('body-parser');
 const reviewRouter = require('./reviews/review-router.js');
 
 
@@ -22,8 +21,6 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
 
 
 /* ///////////////////////////\\\\  KEY VALIDATION  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -65,25 +62,22 @@ places, user review, and rating.
 
 
 
+app.use(errorHandler);
 
-
-
-/*
-//test connection Get
-app.get('/api/test/get', (req, res) => {
-    res.send('Hello, world!' + req.body)
-});
-
-
-// test connection Post
-app.post('/api/test/post', function (req,res) {
- res.send("Hello world this is post" + req.body)
-});
-*/
 
 /* ///////////////////////////\\\\  ERROR HANDLER  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
+function errorHandler(error, req, res, next) {
+    let response;
+    if (NODE_ENV === 'development') {
+        response = { error: 'server error' }
+    } else {
+        console.error(error);
+        response = { message: error.message, error }
+    }
+    res.status(500).json(response)
+}
 
 
 

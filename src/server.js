@@ -15,7 +15,7 @@ app.set('db', db);
 
 
 app.listen(PORT, () => {
-    if (NODE_ENV !== 'production') {
+    if (NODE_ENV !== 'development') {
         console.log(`Server listening at http://localhost:${PORT}`)
     }
 });
