@@ -28,12 +28,12 @@ module.exports = locationsRouter;
 /*
 
 -need to accept user address from Front end
--Address needs to be ran through GeoCode
+-Address needs to be ran through GeoCode to get the latitude/ longitude
 -Output of Geo code must me passed to Google Places API in order to form endpoint
 -Response of Google Api to be stored into new array
 
 -pull restaurant id from Google Places Api Array and compare to restaurant Id's in DB
-    -If match then select db element, Create a new array of DB finds for that restaurant.
+    -If matches found then select db elements, Create a new array of DB review finds for that restaurant ID.
         -join DB finds array of objects, and Google Places Api Object into a new object.
         -Basic data to be in new array.
 
@@ -42,6 +42,7 @@ module.exports = locationsRouter;
 
 
 -Json Element that should be returned to front end should contain basic Data.
+-Ratings will need averaged on the front end to give restaurant an overall average score but also display each users rating.
 
 [{
 restaurantData = {
@@ -62,6 +63,6 @@ reviewsData = {
 }]
 
 
-Ratings will need averaged on the front end.
+
 
  */
