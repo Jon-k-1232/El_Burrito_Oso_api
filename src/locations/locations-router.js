@@ -85,19 +85,6 @@ locationsRouter
             ];
 
 
-// https://eloquentjavascript.net/04_data.html
-            for (let i = 0; i < filteredId[i].length; i++){
-
-                if(filteredId[i] === ){
-
-                }else{
-
-                }
-
-            }
-
-
-
 
 
         };
