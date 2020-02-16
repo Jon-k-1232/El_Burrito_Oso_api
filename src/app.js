@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const app = express();
 const reviewRouter = require('./reviews/review-router.js');
+const locationsRouter = require('./locations/locations-router.js')
 
 
 
@@ -43,24 +44,9 @@ app.use(function validateBearerToken(req, res, next) {
 /* ///////////////////////////\\\\  ENDPOINTS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
-//---- app.use('/api/locations', locationsRouter);
-
-/*   ^^^  "get" request, takes city and state from front end, then runs through GeoCode to get lat long, then pass's
-lat/long response to google places. Google places will then run against DB for user reviews/ ratings and merge into
-response JSON object which then returns a list of restaurant names, address's, phone's, user rating, and user reviews.
-
-Front end this return data will be kept in context.
- */
-
-
-
+app.use('/api/locations', locationsRouter);
 
 app.use('/api/reviews', reviewRouter);
-/*   ^^^   "post" request, new user review. User review will be stored into data base. Accepts restaurant ID from google
-places, user review, and rating.
- */
-
-
 
 app.use(errorHandler);
 

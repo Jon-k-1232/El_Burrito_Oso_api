@@ -17,10 +17,9 @@ reviewRouter
     db.insert(newReview)
       .returning("*")
       .into("userreviews")
-      .then(function(newReview) {
-        res.send('confirmed received');
+      .then(function() {
+        res.send('confirmed receive');
       });
-
   });
 
 module.exports = reviewRouter;

@@ -1,29 +1,117 @@
 
-const path = require('path');
+
 const express = require('express');
 const locationsRouter = express.Router();
-const jsonParser = express.json();
-const {sanitizeFields} = require('../utils');
-const locationsService = require('./locations-service');
+const https = require('https');
+
 
 
 
 locationsRouter
 
-    .route('/locations')
-    .get(async (req,res,next) => {
-        const db = req.app.get('db');
-        try{
-            const locations = await reviewService.list;
-            res.json(reviews);
-        }catch(err) {
-            next (err)
-        }
-    })
+    .route('/:location')
+    .get(async (req,res) => {
+        let loc = req.params.location;
+        let userLocation = loc.toString();
+
+
+// postman test endpoint:    http://localhost:8000/api/locations/16421+North+tatum+Blvd,+Glendale,+Az,+85032
+
+        // setting geoCode variables
+        const geo = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + userLocation +
+            '&key=AIzaSyB3NE69ANz_b5ciRwN0D8PalZYy353pqS4';
+
+// api call for Geo Code to get the Lat/Long.
+        const googleGeo = () => {
+            https.get(geo, (resp) => {
+                let geoData = '';
+
+                resp.on('data', (response) => {
+                   geoData += response;
+                });
+
+                resp.on('end', () => {
+                    return places(JSON.parse(geoData))
+                });
+            })
+                .on('error', (err) => {
+                    res.send('There was and error: ' + err.message)
+                });
+        };
+
+
+
+// api call taking in Lat Long from googleGeo and making a new api to Google Places for restaurant location data.
+        const places = (geoData) => {
+                const latitude = geoData.results[0].geometry.location.lat;
+                const longitude = geoData.results[0].geometry.location.lng;
+
+
+            const burritoRain = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+                latitude + ',' + longitude + '&radius=32186.88&type=restaurant' +
+                '&keyword=burrito&key=AIzaSyB3NE69ANz_b5ciRwN0D8PalZYy353pqS4';
+
+            https.get(burritoRain, (resp) => {
+                let burritoLoco = '';
+
+                resp.on('data', (response) => {
+                    burritoLoco += response;
+                });
+
+                resp.on('end', () => {
+                    return doMaths(JSON.parse(burritoLoco))
+                });
+            })
+                .on('error', (err) => {
+                    res.send('There was and error: ' + err.message)
+                });
+        };
+
+
+
+// filter restaurant data and return new Json array of objects to frontend.
+        const doMaths = (burritoLoco) => {
+            const db = req.app.get("db");
+
+            let filteredResData = [
+                {
+                    id: '',
+                    name: '',
+                    vicinity: '',
+                    reviews: '',
+                    rating: '',
+                    average_Rate: '',
+                },
+            ];
+
+
+// https://eloquentjavascript.net/04_data.html
+            for (let i = 0; i < filteredId[i].length; i++){
+
+                if(filteredId[i] === ){
+
+                }else{
+
+                }
+
+            }
+
+
+
+
+
+        };
+
+
+
+
+        return googleGeo();
+    });
 
 
 
 module.exports = locationsRouter;
+
 
 /*
 
@@ -61,8 +149,6 @@ reviewsData = {
     rating2: 8.4
     },
 }]
-
-
 
 
  */
