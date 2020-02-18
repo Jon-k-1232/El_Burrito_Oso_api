@@ -44,9 +44,9 @@ app.use(function validateBearerToken(req, res, next) {
 /* ///////////////////////////\\\\  ENDPOINTS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
-app.use('/api/locations', locationsRouter);
+app.use('/locations', locationsRouter);
 
-app.use('/api/reviews', reviewRouter);
+app.use('/reviews', reviewRouter);
 
 app.use(errorHandler);
 

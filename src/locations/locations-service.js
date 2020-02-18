@@ -1,23 +1,13 @@
+/*
+const LocationService = {
 
-const ReviewService = {
-    list(knex){
-        return knex('folders').select('*');
+
+    findById(knex, restaurantId){
+        return knex('userreviews').where(restaurantId === burritoLoco.results[0].geometry.i).first('*')
     },
 
-
-
-    findById(knex, id){
-        return knex('userreviews').where({id}).first('*')
-    },
-
-
-
-    insert(knex,folder){
-        return knex('folders')
-            .insert(folder)
-            .returning('*')
-            .then(rows => rows[0]);
-    }
 };
 
-module.exports = ReviewService;
+module.exports = LocationService;
+
+ */
