@@ -32,7 +32,7 @@ locationsRouter.route("/:location").get(async (req, res) => {
         });
 
         resp.on("end", () => {
-            console.log("Geo Hit")
+            console.log("GET --- Geo Hit")
           return places(JSON.parse(geoData));
         });
       })
@@ -67,7 +67,7 @@ locationsRouter.route("/:location").get(async (req, res) => {
         });
 
         resp.on("end", () => {
-          console.log("Burrito Rain Hit")
+          console.log("GET --- Burrito Rain Hit")
             return dbSearch(JSON.parse(burritoLoco));
         });
       })
@@ -88,7 +88,7 @@ locationsRouter.route("/:location").get(async (req, res) => {
     db.select()
       .from("userreviews")
       .whereIn("restaurantId", restIds)
-      .then(data => res.send({ results: burritoLoco.results, data }));
+      .then(reviews => res.send({ results: burritoLoco.results, reviews }));
   };
 
 
