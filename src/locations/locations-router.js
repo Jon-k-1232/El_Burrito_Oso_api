@@ -17,6 +17,7 @@ locationsRouter.route("/:location").get(async (req, res) => {
     "https://maps.googleapis.com/maps/api/geocode/json?address=" +
     userLocation +
     "&key=AIzaSyB3NE69ANz_b5ciRwN0D8PalZYy353pqS4";
+  let userLatLong=''; // this is being set in order to send the user latitude and Long back to front for map centering
 
 
 
@@ -47,15 +48,18 @@ locationsRouter.route("/:location").get(async (req, res) => {
 
   // api call taking in Lat Long from googleGeo and making a new api to Google Places for restaurant location data.
   const places = geoData => {
+
     const latitude = geoData.results[0].geometry.location.lat;
     const longitude = geoData.results[0].geometry.location.lng;
+      userLatLong= geoData //setting of a global var in order to send geo location back to front with other data
+
 
     const burritoRain =
       "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
       latitude +
       "," +
       longitude +
-      "&radius=32186.88&type=restaurant" +
+      "&radius=8047&type=food" +
       "&keyword=burrito&key=AIzaSyB3NE69ANz_b5ciRwN0D8PalZYy353pqS4";
 
     https
@@ -81,14 +85,14 @@ locationsRouter.route("/:location").get(async (req, res) => {
 
 
   // searches the DB for restaurant id comparision, returns db hits in array of objects, then joins with Google places to send back to front end.
-  const dbSearch = burritoLoco => {
+  const dbSearch = (burritoLoco) => {
     const db = req.app.get("db");
     const restIds = [];
     burritoLoco.results.forEach(res => restIds.push(res.id));
     db.select()
       .from("userreviews")
       .whereIn("restaurantId", restIds)
-      .then(reviews => res.send({ results: burritoLoco.results, reviews }));
+      .then(reviews => res.send({ results: burritoLoco.results, reviews, userLatLong }));
   };
 
 

@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const app = express();
 const reviewRouter = require('./reviews/review-router.js');
-const locationsRouter = require('./locations/locations-router.js')
+const locationsRouter = require('./locations/locations-router.js');
 
 
 
@@ -27,7 +27,6 @@ app.use(cors());
 /* ///////////////////////////\\\\  KEY VALIDATION  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
-/*
 app.use(function validateBearerToken(req, res, next) {
     const apiToken = process.env.API_TOKEN;
     const authToken = req.get('Authorization');
@@ -37,7 +36,7 @@ app.use(function validateBearerToken(req, res, next) {
     }
     next()
 });
-*/
+
 
 
 
