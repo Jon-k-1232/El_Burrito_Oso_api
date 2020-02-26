@@ -12,6 +12,7 @@ const locationsRouter = require('./locations/locations-router.js');
 
 
 
+
 const morganOption = (NODE_ENV === 'production')
     ? 'tiny'
     : 'common';
@@ -28,7 +29,7 @@ app.use(cors());
 
 
 app.use(function validateBearerToken(req, res, next) {
-    const apiToken = process.env.API_TOKEN;
+    const apiToken = process.env.API_TOKEN2;
     const authToken = req.get('Authorization');
 
     if (!authToken || authToken.split(' ')[1] !== apiToken) {

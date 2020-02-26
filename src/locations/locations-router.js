@@ -4,6 +4,7 @@ const https = require("https");
 
 
 
+
 // postman test endpoint:    http://localhost:8000/api/locations/16421+North+tatum+Blvd,+Glendale,+Az,+85032
 
 
@@ -16,7 +17,7 @@ locationsRouter.route("/:location").get(async (req, res) => {
   const geo =
     "https://maps.googleapis.com/maps/api/geocode/json?address=" +
     userLocation +
-    "&key=AIzaSyB3NE69ANz_b5ciRwN0D8PalZYy353pqS4";
+    `&key=${process.env.API_TOKEN}`;
   let userLatLong=''; // this is being set in order to send the user latitude and Long back to front for map centering
 
 
@@ -59,8 +60,7 @@ locationsRouter.route("/:location").get(async (req, res) => {
       latitude +
       "," +
       longitude +
-      "&radius=8047&type=food" +
-      "&keyword=burrito&key=AIzaSyB3NE69ANz_b5ciRwN0D8PalZYy353pqS4";
+      "&radius=8047&type=food" + `&keyword=burrito&key=${process.env.API_TOKEN}`;
 
     https
       .get(burritoRain, resp => {
