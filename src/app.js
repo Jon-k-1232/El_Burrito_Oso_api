@@ -3,7 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
-const { NODE_ENV,CLIENT_ORIGIN } = require('./config');
+const { NODE_ENV } = require('./config');
 const app = express();
 const reviewRouter = require('./reviews/review-router.js');
 const locationsRouter = require('./locations/locations-router.js');
@@ -24,9 +24,10 @@ app.use(helmet());
 app.use(express.json());
 app.use(
     cors({
-        origin: CLIENT_ORIGIN
+        origin: process.env.CLIENT_ORIGIN
     })
 );
+
 
 
 /* ///////////////////////////\\\\  KEY VALIDATION  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
