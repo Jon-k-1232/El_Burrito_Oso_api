@@ -5,19 +5,10 @@ const https = require("https");
 
 
 
-// postman test endpoint:    http://localhost:8000/api/locations/16421+North+tatum+Blvd,+Glendale,+Az,+85032
-
-
-
 locationsRouter.route("/:location").get(async (req, res) => {
   let loc = req.params.location;
   let userLocation = loc.toString();
-
-  // setting geoCode variables
-  const geo =
-    "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-    userLocation +
-    `&key=${process.env.API_TOKEN}`;
+  const geo = `https://maps.googleapis.com/maps/api/geocode/json?address=${userLocation}&key=${process.env.API_TOKEN}`;
   let userLatLong=''; // this is being set in order to send the user latitude and Long back to front for map centering
 
 
@@ -34,7 +25,6 @@ locationsRouter.route("/:location").get(async (req, res) => {
         });
 
         resp.on("end", () => {
-            console.log("GET --- Geo Hit")
           return places(JSON.parse(geoData));
         });
       })
@@ -52,15 +42,12 @@ locationsRouter.route("/:location").get(async (req, res) => {
 
     const latitude = geoData.results[0].geometry.location.lat;
     const longitude = geoData.results[0].geometry.location.lng;
-      userLatLong= geoData //setting of a global var in order to send geo location back to front with other data
+      userLatLong= geoData          //setting of a global var in order to send geo location back to front with other data
 
 
     const burritoRain =
-      "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" +
-      latitude +
-      "," +
-      longitude +
-      "&radius=8047&type=food" + `&keyword=burrito&key=${process.env.API_TOKEN}`;
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=
+      ${latitude},${longitude}&radius=5632&type=food&keyword=burrito&key=${process.env.API_TOKEN}`; // search radius im meters, conversion = 3.5 miles
 
     https
       .get(burritoRain, resp => {
@@ -71,7 +58,6 @@ locationsRouter.route("/:location").get(async (req, res) => {
         });
 
         resp.on("end", () => {
-          console.log("GET --- Burrito Rain Hit")
             return dbSearch(JSON.parse(burritoLoco));
         });
       })
@@ -92,7 +78,7 @@ locationsRouter.route("/:location").get(async (req, res) => {
     db.select()
       .from("userreviews")
       .whereIn("restaurantId", restIds)
-      .then(reviews => res.send({ results: burritoLoco.results, reviews, userLatLong }));
+      .then(reviews => res.send({ results: burritoLoco.results, reviews, userLatLong, message:200 }));
   };
 
 
