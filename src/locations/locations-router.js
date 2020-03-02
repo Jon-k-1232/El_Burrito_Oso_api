@@ -29,7 +29,7 @@ locationsRouter.route("/:location").get(async (req, res) => {
         });
       })
       .on("error", err => {
-        res.send("There was and error: " + err.message);
+        res.send("There was an error: " + err.message);
       });
   };
 
@@ -62,7 +62,7 @@ locationsRouter.route("/:location").get(async (req, res) => {
         });
       })
       .on("error", err => {
-        res.send("There was and error: " + err.message);
+        res.send("There was an error: " + err.message);
       });
   };
 
