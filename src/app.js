@@ -44,8 +44,6 @@ app.use(function validateBearerToken(req, res, next) {
 });
 
 
-
-
 /* ///////////////////////////\\\\  ENDPOINTS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
