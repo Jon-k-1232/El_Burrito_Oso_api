@@ -12,7 +12,7 @@
 
 ## Live
 
-[Live Site](https://el-burrito-oso-m674j6lrr.now.sh/)
+[Live Site](https://el-burrito-oso-egbx8e6mo.now.sh/)
 
 ---
 
