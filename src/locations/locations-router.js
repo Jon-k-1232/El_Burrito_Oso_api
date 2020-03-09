@@ -42,12 +42,13 @@ locationsRouter.route("/:location").get(async (req, res) => {
 
     const latitude = geoData.results[0].geometry.location.lat;
     const longitude = geoData.results[0].geometry.location.lng;
-      userLatLong= geoData          //setting of a global var in order to send geo location back to front with other data
+    userLatLong= geoData          //setting of a global var in order to send geo location back to front with other data
 
 
+      // search radius im meters, conversion = 3.5 miles, keyword is set to burrito
     const burritoRain =
       `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=
-      ${latitude},${longitude}&radius=5632&type=food&keyword=burrito&key=${process.env.API_TOKEN}`; // search radius im meters, conversion = 3.5 miles
+      ${latitude},${longitude}&radius=5632&type=food&keyword=burrito&key=${process.env.API_TOKEN}`;
 
     https
       .get(burritoRain, resp => {
@@ -70,11 +71,14 @@ locationsRouter.route("/:location").get(async (req, res) => {
 
 
 
-  // searches the DB for restaurant id comparision, returns db hits in array of objects, then joins with Google places to send back to front end.
+  /*
+  searches the DB for restaurant id comparision, returns db hits in array of objects, then joins with Google
+  places to send back to front end.
+   */
   const dbSearch = (burritoLoco) => {
     const db = req.app.get("db");
     const restIds = [];
-    burritoLoco.results.forEach(res => restIds.push(res.id));
+    burritoLoco.results.forEach(res => restIds.push(res.place_id));
     db.select()
       .from("userreviews")
       .whereIn("restaurantId", restIds)

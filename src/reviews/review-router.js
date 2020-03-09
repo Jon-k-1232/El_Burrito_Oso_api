@@ -10,6 +10,7 @@ reviewRouter.route("/submit").post(jsonParser, async (req, res, next) => {
 
   newReview = sanitizeFields(newReview);
 
+  //insert user review info into database
   db.insert(newReview)
     .returning("*")
     .into("userreviews")

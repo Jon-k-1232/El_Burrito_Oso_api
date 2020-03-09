@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config');
 const app = express();
 const reviewRouter = require('./reviews/review-router.js');
 const locationsRouter = require('./locations/locations-router.js');
+const restaurantRouter = require('./restaurant/restaurantRouter.js')
 
 
 
@@ -46,10 +47,17 @@ app.use(function validateBearerToken(req, res, next) {
 
 /* ///////////////////////////\\\\  ENDPOINTS  ////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-
+// returns restaurants, and database info
 app.use('/locations', locationsRouter);
 
+// adds user review to database
 app.use('/reviews', reviewRouter);
+
+/*
+Used for router, when user shares a restaurant. Returns a restaurant based on param passed in link,
+and searches DB for review matches
+ */
+app.use('/restaurant', restaurantRouter);
 
 app.use(errorHandler);
 

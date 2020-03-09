@@ -18,6 +18,7 @@ describe("Express App", () => {
     return app.set("db", db);
   });
 
+  // Tests post endpoint
   it("should return a 200 status message from POST /", () => {
     // Testing POST
     let fakeData = {
@@ -38,8 +39,8 @@ describe("Express App", () => {
       });
   });
 
+  // Tests get restaurants endpoint
   it("should return a message from GET /", done => {
-    // Testing GET
     chai
       .request(app)
       .get("/locations/16421+North+tatum+Blvd,+Glendale,+Az,+85032")
@@ -51,4 +52,21 @@ describe("Express App", () => {
         done();
       });
   });
+
+
+    // tests endpoint for google places location details.
+    it("should return a message from GET /", done => {
+        chai
+            .request(app)
+            .get("/restaurant/ChIJYTP5bzFwK4cReB7p8SS1u00")
+            .set("Authorization", `Bearer ${API_TOKEN2}`)
+            .end((err, res) => {
+                res.should.have.status(200);
+                should.exist(res.body);
+                res.body.should.be.a("object");
+                done();
+            });
+    });
+
+
 });
